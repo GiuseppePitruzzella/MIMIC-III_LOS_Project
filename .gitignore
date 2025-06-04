@@ -1,7 +1,3 @@
-# === Raw data ===
-data/raw/*                     # Exclude all raw data files
-!data/raw/download_mimic.sh   # Include only the download script
-
 # === Jupyter ===
 **/.ipynb_checkpoints/         # Notebook checkpoints
 
@@ -20,3 +16,9 @@ venv/
 # === OS-specific ===
 .DS_Store                     # macOS
 Thumbs.db                    # Windows
+
+# === Raw data ===
+data/raw/*
+!data/raw/download_mimic.sh   # Include only the download script
+notebooks/.DS_Store
+.DS_Store
