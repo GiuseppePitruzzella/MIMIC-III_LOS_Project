@@ -1,0 +1,22 @@
+# === Raw data ===
+data/raw/*                     # Exclude all raw data files
+!data/raw/download_mimic.sh   # Include only the download script
+
+# === Jupyter ===
+**/.ipynb_checkpoints/         # Notebook checkpoints
+
+# === Python ===
+__pycache__/
+*.py[cod]
+
+# === Logs ===
+*.log
+
+# === Environments ===
+.env
+.venv/
+venv/
+
+# === OS-specific ===
+.DS_Store                     # macOS
+Thumbs.db                    # Windows
