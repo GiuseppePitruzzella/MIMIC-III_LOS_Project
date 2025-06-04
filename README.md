@@ -1,26 +1,14 @@
-<!-- PROJECT SHIELDS -->
-<!--
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
--->
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/GiuseppePitruzzella/mimic3-los-prediction">
-    <img src="/assets/images/logo.png" alt="Logo" width="200" height="200">
+    <img src="assets/images/logo.png" alt="Logo" width="300">
   </a>
 
   <h3 align="center">MIMIC-III ICU LOS Prediction</h3>
 
   <p align="center">
-    Full Machine Learning pipeline for predicting ICU Length of Stay (LOS) using MIMIC-III dataset.
-    <br />
-    Exploratory analysis, visualization, supervised modeling and model interpretation.
+    A supervised machine learning pipeline for predicting ICU Length of Stay (LOS) using the MIMIC-III clinical dataset.
     <br />
     <a href="https://github.com/GiuseppePitruzzella/mimic3-los-prediction/issues">Report Bug</a>
     ·
@@ -28,50 +16,74 @@
   </p>
 </div>
 
----
 
-## 📦 Project Overview
+## 📘 Project Overview
 
-This project aims to analyze the MIMIC-III clinical dataset to:
+This project applies supervised learning to predict the ICU Length of Stay (LOS), a continuous variable, using regression models based on neural networks and other machine learning techniques. It leverages real ICU patient data from the publicly available MIMIC-III dataset, widely used in clinical AI research.
 
-- Select patients with a specific ICD9 disease
-- Perform descriptive statistics and visualize clinical variables
-- Train machine learning models to predict ICU Length of Stay (LOS)
-- Interpret model predictions using SHAP or LIME
 
-The final deliverable includes a report (PDF) and a fully documented Jupyter Notebook.
+## 📦 Dataset Setup
 
----
+All `.csv` files from the MIMIC-III educational mirror are automatically downloaded and decompressed using the script:
 
-## 🚀 Getting Started
+📁 **`data/raw/download_mimic.sh`**
 
-### Prerequisites
+To trigger the download:
+```python
+!bash ../data/raw/download_mimic.sh
+````
 
-- Python 3.10+
-- Jupyter Notebook
-- Docker (optional)
-- PostgreSQL (if using raw MIMIC-III database)
+This will:
 
-### Installation
+* Fetch `.csv.gz` files from: [https://www.dcc.fc.up.pt/\~ines/MIMIC-III/](https://www.dcc.fc.up.pt/~ines/MIMIC-III/)
+* Decompress them
+* Store results in `data/raw/`
 
-1. Clone the repository
-   ```sh
-   git clone https://github.com/GiuseppePitruzzella/mimic3-los-prediction.git
-   cd mimic3-los-prediction
-    ```
+> ℹ️ Only `download_mimic.sh` is version-controlled; all `.csv` files are ignored via `.gitignore`.
 
-2. (Optional) Set up virtual environment
 
-   ```sh
-   python -m venv venv
-   source venv/bin/activate
-   ```
+## 🧪 Environment Setup
 
-3. Install dependencies
+Required libraries are listed in the file `requirements.txt`.
 
-   ```sh
-   pip install -r requirements.txt
-   ```
+To install all dependencies from within a notebook:
+
+```python
+import subprocess
+import sys
+import importlib.util
+
+req_file = "../requirements.txt"
+
+def read_requirements(file_path):
+    with open(file_path, "r") as f:
+        return [line.strip().split("==")[0] for line in f if line.strip() and not line.startswith("#")]
+
+def is_installed(package_name):
+    return importlib.util.find_spec(package_name) is not None
+
+def pip_install(package_name):
+    print(f"📦 Installing: {package_name}")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
+
+module_map = {
+    "scikit-learn": "sklearn",
+    "ipython": "IPython"
+}
+
+for pkg in read_requirements(req_file):
+    module_name = module_map.get(pkg, pkg)
+    if not is_installed(module_name):
+        pip_install(pkg)
+    else:
+        print(f"✅ Already installed: {pkg}")
+```
+
+Alternatively, from the command line:
+
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
@@ -80,74 +92,50 @@ The final deliverable includes a report (PDF) and a fully documented Jupyter Not
 ```bash
 mimic3-los-prediction/
 ├── data/
-│   ├── raw/
-│   └── processed/
+│   └── raw/
+│       └── download_mimic.sh     # Download script (tracked)
+│       └── *.csv                 # Raw data (ignored via .gitignore)
 ├── notebooks/
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_visualization.ipynb
-│   ├── 03_feature_engineering.ipynb
-│   ├── 04_modeling.ipynb
-│   └── 05_interpretation.ipynb
-├── reports/
-│   └── progetto_finale.pdf
 ├── src/
-│   └── preprocessing.py
-├── LICENSE.txt
+├── reports/
 ├── requirements.txt
-└── README.md
+├── .gitignore
+├── README.md
 ```
 
 ---
 
-## 📊 Usage Examples
+## 🔒 Git Ignore Strategy
 
-* Launch Jupyter Notebook and execute cells in order.
-* Switch disease or ICD9 code in the preprocessing step.
-* Use `src/` functions to preprocess data programmatically.
+To prevent accidental commits of large patient data files:
 
-*For detailed walkthroughs, refer to the notebooks.*
+* All files in `data/raw/` are ignored
+* Exception: `download_mimic.sh` is version-controlled
 
----
+`.gitignore` includes rules for:
 
-## 🤝 Contributing
+* Raw data files
+* Jupyter checkpoints
+* Python bytecode
+* OS system files
 
-Contributions are what make the open source community amazing. Any suggestions, bug reports, or enhancements are welcome.
 
-1. Fork the repository
-2. Create your Feature Branch (`git checkout -b feature/NewFeature`)
-3. Commit your Changes (`git commit -m 'Add NewFeature'`)
-4. Push to the Branch (`git push origin feature/NewFeature`)
-5. Open a Pull Request
+## 🔍 Initial Exploration
 
----
+After setup, begin with the notebooks in `notebooks/`:
+
+* Understand the core MIMIC-III tables
+* Select relevant ICD9 codes
+* Prepare data for modeling
+
 
 ## 🧾 License
 
-Distributed under the **GNU GPLv3** License.
-See `LICENSE.txt` for more information.
+Distributed under the **GNU GPLv3 License**.
+See `LICENSE.txt` for details.
 
----
 
 ## 📬 Contact
 
-Giuseppe Pitruzzella – [GitHub Profile](https://github.com/GiuseppePitruzzella)
-Project Repository – [GitHub Link](https://github.com/GiuseppePitruzzella/mimic3-los-prediction)
-
----
-
-<!-- MARKDOWN LINKS -->
-
-<!--
-[contributors-shield]: https://img.shields.io/github/contributors/GiuseppePitruzzella/neotasks.svg?style=for-the-badge
-[contributors-url]: https://github.com/GiuseppePitruzzella/neotasks/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/GiuseppePitruzzella/neotasks.svg?style=for-the-badge
-[forks-url]: https://github.com/GiuseppePitruzzella/neotasks/network/members
-[stars-shield]: https://img.shields.io/github/stars/GiuseppePitruzzella/neotasks.svg?style=for-the-badge
-[stars-url]: https://github.com/GiuseppePitruzzella/neotasks/stargazers
-[issues-shield]: https://img.shields.io/github/issues/GiuseppePitruzzella/neotasks.svg?style=for-the-badge
-[issues-url]: https://github.com/GiuseppePitruzzella/neotasks/issues
-[license-shield]: https://img.shields.io/github/license/GiuseppePitruzzella/neotasks.svg?style=for-the-badge
-[license-url]: https://github.com/GiuseppePitruzzella/neotasks/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-blue.svg?style=for-the-badge&logo=linkedin&colorB=0077B5
-[linkedin-url]: https://linkedin.com/in/tuo-nome
--->
+Giuseppe Pitruzzella – [GitHub](https://github.com/GiuseppePitruzzella)
+Project Repository – [mimic3-los-prediction](https://github.com/GiuseppePitruzzella/mimic3-los-prediction)
