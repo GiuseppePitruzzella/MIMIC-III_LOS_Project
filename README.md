@@ -24,27 +24,7 @@ This project applies supervised learning to predict the ICU Length of Stay (LOS)
 
 ## 📦 Dataset Setup
 
-All `.csv` files from the MIMIC-III educational mirror are automatically downloaded and extracted using the script:
-
-📁 **`data/raw/download_mimic.sh`**
-
-You can obtain the dataset in two ways:
-
-- **From a notebook**: run the dedicated cell in `00_setup.ipynb`
-- **From the command line**: execute
-
-```bash
-bash ../data/raw/download_mimic.sh
-```
-
-This script will:
-
-* Download `.csv.gz` files from: [https://www.dcc.fc.up.pt/~ines/MIMIC-III/](https://www.dcc.fc.up.pt/~ines/MIMIC-III/)
-* Automatically extract them
-* Save the extracted files in `data/raw/`
-
-> Note: Only `download_mimic.sh` is version-controlled; all `.csv` files are excluded via `.gitignore`.
-
+To facilitate reproducibility, all necessary .csv files from the MIMIC-III clinical dataset have been kindly provided by the course instructor in compressed format (.csv.gz). The files have been made available via an educational mirror for use in this project.
 
 ## 🧪 Environment Setup
 
@@ -84,11 +64,6 @@ mimic3-los-prediction/
 ## 🔒 Git Ignore Strategy
 
 To prevent accidental commits of large patient data files:
-
-* All files in `data/raw/` are ignored
-* Exception: `download_mimic.sh` is version-controlled
-
-`.gitignore` includes rules for:
 
 * Raw data files
 * Jupyter checkpoints
