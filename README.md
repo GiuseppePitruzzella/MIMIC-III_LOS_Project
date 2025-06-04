@@ -24,66 +24,42 @@ This project applies supervised learning to predict the ICU Length of Stay (LOS)
 
 ## 📦 Dataset Setup
 
-All `.csv` files from the MIMIC-III educational mirror are automatically downloaded and decompressed using the script:
+All `.csv` files from the MIMIC-III educational mirror are automatically downloaded and extracted using the script:
 
 📁 **`data/raw/download_mimic.sh`**
 
-To trigger the download:
-```python
-!bash ../data/raw/download_mimic.sh
-````
+You can obtain the dataset in two ways:
 
-This will:
+- **From a notebook**: run the dedicated cell in `00_setup.ipynb`
+- **From the command line**: execute
 
-* Fetch `.csv.gz` files from: [https://www.dcc.fc.up.pt/\~ines/MIMIC-III/](https://www.dcc.fc.up.pt/~ines/MIMIC-III/)
-* Decompress them
-* Store results in `data/raw/`
+```bash
+bash ../data/raw/download_mimic.sh
+```
 
-> ℹ️ Only `download_mimic.sh` is version-controlled; all `.csv` files are ignored via `.gitignore`.
+This script will:
+
+* Download `.csv.gz` files from: [https://www.dcc.fc.up.pt/~ines/MIMIC-III/](https://www.dcc.fc.up.pt/~ines/MIMIC-III/)
+* Automatically extract them
+* Save the extracted files in `data/raw/`
+
+> Note: Only `download_mimic.sh` is version-controlled; all `.csv` files are excluded via `.gitignore`.
 
 
 ## 🧪 Environment Setup
 
-Required libraries are listed in the file `requirements.txt`.
+All required Python libraries are listed in `requirements.txt`.
 
-To install all dependencies from within a notebook:
+You can set up the environment in two ways:
 
-```python
-import subprocess
-import sys
-import importlib.util
-
-req_file = "../requirements.txt"
-
-def read_requirements(file_path):
-    with open(file_path, "r") as f:
-        return [line.strip().split("==")[0] for line in f if line.strip() and not line.startswith("#")]
-
-def is_installed(package_name):
-    return importlib.util.find_spec(package_name) is not None
-
-def pip_install(package_name):
-    print(f"📦 Installing: {package_name}")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
-
-module_map = {
-    "scikit-learn": "sklearn",
-    "ipython": "IPython"
-}
-
-for pkg in read_requirements(req_file):
-    module_name = module_map.get(pkg, pkg)
-    if not is_installed(module_name):
-        pip_install(pkg)
-    else:
-        print(f"✅ Already installed: {pkg}")
-```
-
-Alternatively, from the command line:
+- **From a notebook**: run the appropriate cell in `00_setup.ipynb` to install all dependencies automatically.
+- **From the command line**: execute
 
 ```bash
 pip install -r requirements.txt
 ```
+
+This will ensure your environment is ready to run the code and notebooks in this project.
 
 ---
 
