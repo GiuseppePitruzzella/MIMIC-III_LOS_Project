@@ -18,7 +18,8 @@ venv/
 Thumbs.db                    # Windows
 
 # === Raw data ===
-data/raw/*
+data/*
+
 !data/raw/download_mimic.sh   # Include only the download script
 notebooks/.DS_Store
 .DS_Store
