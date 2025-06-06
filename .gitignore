@@ -23,3 +23,4 @@ data/*
 !data/raw/download_mimic.sh   # Include only the download script
 notebooks/.DS_Store
 .DS_Store
+todo.txt
