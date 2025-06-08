@@ -24,5 +24,6 @@ data/*
 notebooks/.DS_Store
 .DS_Store
 todo.txt
+abstract_ita.txt
 notebooks/backups/*
 assets/plots/*
